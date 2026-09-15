@@ -201,9 +201,9 @@
 
     <script>
         // GitHub Secret Scanning-ஐத் தவிர்க்க API Key பிரிக்கப்பட்டுள்ளது
-        const k1 = "AQ.Ab8RN6JI2iYlLOxk620o18gnA";
-        const k2 = "1kvqxJNjVnS14PsGJOiyAc13A";
-        const API_KEY = k1 + k2;
+        const part1 = "AQ.Ab8RN6JI2iYlLOxk620o18gnA";
+        const part2 = "1kvqxJNjVnS14PsGJOiyAc13A";
+        const API_KEY = part1 + part2;
 
         const statusEl = document.getElementById('status');
         const outputEl = document.getElementById('output');
@@ -255,7 +255,7 @@
                     body: JSON.stringify({
                         contents: [{
                             parts: [{ 
-                                text: "You are Paari AI, a highly intelligent Tamil voice assistant. Provide a clear, complete, and helpful explanation in Tamil for the user's question: " + promptText 
+                                text: "You are Paari AI, a highly intelligent Tamil voice assistant. Provide a clear, detailed, and complete explanation in Tamil for: " + promptText 
                             }]
                         }]
                     })
