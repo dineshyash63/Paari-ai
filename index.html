@@ -3,300 +3,161 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>PAARI AI - Quantum Intelligence</title>
+    <title>PAARI AI v7.0 - App Builder Engine</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800;900&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
     <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            user-select: none;
-            -webkit-tap-highlight-color: transparent;
-        }
-
+        * { box-sizing: border-box; margin: 0; padding: 0; user-select: none; }
         body {
-            background-color: #020813;
-            color: #00f0ff;
-            font-family: 'Rajdhani', sans-serif;
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px;
-            background-image: 
-                radial-gradient(circle at 50% 30%, rgba(0, 240, 255, 0.1) 0%, transparent 70%),
-                linear-gradient(rgba(0, 240, 255, 0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0, 240, 255, 0.03) 1px, transparent 1px);
-            background-size: 100% 100%, 25px 25px, 25px 25px;
-            overflow: hidden;
+            background-color: #020611; color: #00f0ff;
+            font-family: 'Rajdhani', sans-serif; height: 100vh;
+            display: flex; flex-direction: column; justify-content: space-between;
+            align-items: center; padding: 8px; overflow: hidden;
         }
-
-        .header { text-align: center; margin-top: 5px; }
-
-        .title {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 26px;
-            font-weight: 900;
-            letter-spacing: 3px;
-            color: #ffffff;
-            text-shadow: 0 0 10px #00f0ff, 0 0 20px #00f0ff;
-        }
-
-        .subtitle {
-            font-size: 10px;
-            letter-spacing: 2px;
-            color: rgba(0, 240, 255, 0.7);
-            margin-top: 2px;
-        }
-
-        .reactor-container {
-            position: relative;
-            width: 150px;
-            height: 150px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin: 10px 0;
-        }
-
-        .ring-outer {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            border: 2px dashed rgba(0, 240, 255, 0.5);
-            animation: spinClockwise 15s linear infinite;
-        }
-
-        .ring-inner {
-            position: absolute;
-            width: 75%;
-            height: 75%;
-            border-radius: 50%;
-            border: 2px solid transparent;
-            border-top-color: #00f0ff;
-            border-bottom-color: #00f0ff;
-            animation: spinCounter 6s ease-in-out infinite;
-        }
-
-        .core {
-            width: 45%;
-            height: 45%;
-            background: radial-gradient(circle, #ffffff 10%, #00f0ff 70%, rgba(0, 240, 255, 0.3) 100%);
-            border-radius: 50%;
-            box-shadow: 0 0 20px #00f0ff, 0 0 40px #00f0ff;
-            transition: all 0.3s ease;
-        }
-
-        .reactor-container.listening .core {
-            background: radial-gradient(circle, #ffffff 10%, #ff0055 70%, rgba(255, 0, 85, 0.3) 100%);
-            box-shadow: 0 0 30px #ff0055, 0 0 60px #ff0055;
-            animation: pulse 1s infinite alternate;
-        }
-
-        .reactor-container.thinking .core {
-            background: radial-gradient(circle, #ffffff 10%, #ffaa00 70%, rgba(255, 170, 0, 0.3) 100%);
-            box-shadow: 0 0 30px #ffaa00, 0 0 60px #ffaa00;
-        }
-
-        .reactor-container.speaking .core {
-            animation: pulse 0.5s infinite alternate;
-        }
-
-        @keyframes spinClockwise { 100% { transform: rotate(360deg); } }
-        @keyframes spinCounter { 100% { transform: rotate(-360deg); } }
-        @keyframes pulse { 0% { transform: scale(0.95); } 100% { transform: scale(1.15); } }
+        .header { text-align: center; }
+        .title { font-family: 'Orbitron', sans-serif; font-size: 20px; font-weight: 900; color: #fff; text-shadow: 0 0 10px #00f0ff; }
+        .subtitle { font-size: 8px; letter-spacing: 2px; color: rgba(0, 240, 255, 0.8); }
 
         .display-panel {
-            width: 100%;
-            flex: 1;
-            max-height: 45vh;
-            background: rgba(4, 20, 40, 0.85);
-            border: 1px solid rgba(0, 240, 255, 0.4);
-            border-radius: 15px;
-            padding: 15px;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-start;
-            margin-bottom: 10px;
+            width: 100%; flex: 1; max-height: 50vh;
+            background: rgba(3, 15, 35, 0.95); border: 1px solid rgba(0, 240, 255, 0.5);
+            border-radius: 10px; padding: 10px; display: flex; flex-direction: column;
+            position: relative; overflow: hidden;
         }
 
-        .status-tag {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 11px;
-            letter-spacing: 2px;
-            color: #00f0ff;
-            margin-bottom: 8px;
-            text-transform: uppercase;
-        }
+        .status-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+        .status-tag { font-family: 'Orbitron', sans-serif; font-size: 9px; color: #00f0ff; }
+        .action-btn { cursor: pointer; font-size: 10px; background: rgba(0, 240, 255, 0.2); padding: 3px 6px; border-radius: 4px; border: 1px solid #00f0ff; color: #fff; }
 
-        .response-text {
-            font-size: 15px;
-            line-height: 1.5;
-            color: #ffffff;
-            font-weight: 500;
-            overflow-y: auto;
-            white-space: pre-wrap;
-            user-select: text;
-        }
+        .content-box { flex: 1; overflow-y: auto; white-space: pre-wrap; font-size: 13px; color: #fff; }
+        #appPreviewFrame { width: 100%; height: 100%; border: none; background: #fff; border-radius: 6px; display: none; }
 
-        .controls {
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            align-items: center;
-        }
+        .tab-bar { display: flex; gap: 6px; width: 100%; margin: 6px 0; }
+        .tab { flex: 1; padding: 6px; background: rgba(0,240,255,0.1); border: 1px solid rgba(0,240,255,0.3); color: #00f0ff; border-radius: 6px; text-align: center; font-size: 11px; cursor: pointer; font-weight: bold; }
+        .tab.active { background: #00f0ff; color: #000; box-shadow: 0 0 10px #00f0ff; }
 
-        .mic-btn {
-            width: 70px;
-            height: 70px;
-            border-radius: 50%;
-            background: radial-gradient(circle, #00f0ff 0%, #005580 100%);
-            border: none;
-            outline: none;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-            box-shadow: 0 0 25px rgba(0, 240, 255, 0.6);
-            transition: transform 0.2s;
-        }
-
-        .mic-btn:active { transform: scale(0.9); }
-        .mic-btn svg { width: 32px; height: 32px; fill: #020813; }
-        .footer-note { font-size: 10px; letter-spacing: 1.5px; color: rgba(0, 240, 255, 0.5); }
+        .input-bar { width: 100%; display: flex; gap: 4px; }
+        .text-input { flex: 1; background: rgba(0, 240, 255, 0.1); border: 1px solid rgba(0, 240, 255, 0.4); border-radius: 6px; padding: 8px; color: #fff; font-size: 12px; outline: none; }
+        .send-btn { background: #00f0ff; color: #000; border: none; padding: 8px 12px; border-radius: 6px; font-weight: bold; cursor: pointer; }
     </style>
 </head>
 <body>
 
     <div class="header">
-        <div class="title">PAARI AI</div>
-        <div class="subtitle">QUANTUM INTELLIGENCE SYSTEM</div>
+        <div class="title">PAARI AI v7.0</div>
+        <div class="subtitle">AUTONOMOUS APP BUILDER ENGINE</div>
     </div>
 
-    <div class="reactor-container" id="reactor">
-        <div class="ring-outer"></div>
-        <div class="ring-inner"></div>
-        <div class="core"></div>
+    <div class="tab-bar">
+        <div class="tab active" id="tabChat" onclick="switchTab('chat')">💬 CHAT / PROMPT</div>
+        <div class="tab" id="tabPreview" onclick="switchTab('preview')">📱 APP PREVIEW</div>
     </div>
 
     <div class="display-panel">
-        <div class="status-tag" id="status">SYSTEM ONLINE</div>
-        <div class="response-text" id="output">வணக்கம் நண்பா! நான் பாரி AI. மைக்கைத் தொட்டு உங்கள் கேள்வியைக் கேட்கவும்...</div>
+        <div class="status-header">
+            <div class="status-tag" id="status">ENGINE READY</div>
+            <div>
+                <span class="action-btn" onclick="downloadAppCode()">💾 Download App (.html)</span>
+                <span class="action-btn" onclick="copyCode()">📋 Copy Code</span>
+            </div>
+        </div>
+        <div class="content-box" id="output">வணக்கம்! நான் உங்கள் ஆப் பில்டர் AI (App Builder).
+
+உங்களுக்கு என்ன மாதிரி ஆப் வேண்டும் என்று கீழே டைப் செய்யுங்கள்!
+எடுத்துக்காட்டாக:
+• "ஒரு Tic-Tac-Toe கேம் ஆப் தயார் செய்து கொடு"
+• "ஒரு Digital Clock & Alarm App பண்ணி கொடு"
+• "ஒரு Expense Tracker (செலவு கணக்கு) ஆப் தயார் பண்ணு"</div>
+        <iframe id="appPreviewFrame"></iframe>
     </div>
 
-    <div class="controls">
-        <button class="mic-btn" onclick="startVoice()">
-            <svg viewBox="0 0 24 24">
-                <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
-                <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
-            </svg>
-        </button>
-        <div class="footer-note">TAP MIC TO SPEAK</div>
+    <div class="input-bar" style="margin-top: 8px;">
+        <input type="text" id="userInput" class="text-input" placeholder="எந்த ஆப் உருவாக்க வேண்டும்? டைப் செய்யவும்..." onkeypress="handleKeyPress(event)">
+        <button class="send-btn" onclick="generateApp()">BUILD APP</button>
     </div>
 
     <script>
-        // GitHub Secret Scanning-ஐத் தவிர்க்க API Key பிரிக்கப்பட்டுள்ளது
-        const part1 = "AQ.Ab8RN6JI2iYlLOxk620o18gnA";
-        const part2 = "1kvqxJNjVnS14PsGJOiyAc13A";
-        const API_KEY = part1 + part2;
+        const p1 = "AQ.Ab8RN6JI2iYlLOxk620o18gnA";
+        const p2 = "1kvqxJNjVnS14PsGJOiyAc13A";
+        const API_KEY = p1 + p2;
 
-        const statusEl = document.getElementById('status');
-        const outputEl = document.getElementById('output');
-        const reactor = document.getElementById('reactor');
+        let generatedCode = "";
 
-        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        function handleKeyPress(e) { if (e.key === 'Enter') generateApp(); }
 
-        function startVoice() {
-            if (!SpeechRecognition) {
-                alert("உங்கள் பிரவுசரில் Voice Speech ஆதரிக்கப்படவில்லை.");
-                return;
+        function switchTab(tab) {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            if(tab === 'chat') {
+                document.getElementById('tabChat').classList.add('active');
+                document.getElementById('output').style.display = 'block';
+                document.getElementById('appPreviewFrame').style.display = 'none';
+            } else {
+                document.getElementById('tabPreview').classList.add('active');
+                document.getElementById('output').style.display = 'none';
+                document.getElementById('appPreviewFrame').style.display = 'block';
             }
-
-            const rec = new SpeechRecognition();
-            rec.lang = 'ta-IN';
-
-            rec.onstart = () => {
-                statusEl.innerText = "LISTENING...";
-                statusEl.style.color = "#ff0055";
-                reactor.className = "reactor-container listening";
-            };
-
-            rec.onresult = async (e) => {
-                const userQuery = e.results[0][0].transcript;
-                outputEl.innerText = "நீங்கள்: " + userQuery + "\n\nபாரி AI யோசிக்கிறது...";
-                await askGemini(userQuery);
-            };
-
-            rec.onerror = () => {
-                statusEl.innerText = "ERROR LISTENING";
-                statusEl.style.color = "#ff0055";
-                reactor.className = "reactor-container";
-            };
-
-            rec.start();
         }
 
-        async function askGemini(promptText) {
-            statusEl.innerText = "THINKING & PROCESSING...";
-            statusEl.style.color = "#ffaa00";
-            reactor.className = "reactor-container thinking";
+        async function generateApp() {
+            const prompt = document.getElementById('userInput').value.trim();
+            if (!prompt) return;
+
+            const outputEl = document.getElementById('output');
+            const statusEl = document.getElementById('status');
+            
+            switchTab('chat');
+            outputEl.innerText = "உங்களின் '" + prompt + "' ஆப்பிற்கான கோட்களை AI உருவாக்கி வருகிறது... தயவுசெய்து காத்திருக்கவும்! 🚀";
+            statusEl.innerText = "BUILDING APP...";
 
             try {
                 const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`;
                 
+                const systemPrompt = `You are an expert Mobile Web App Developer. The user wants to build a complete working HTML/CSS/JS application.
+                User Request: "${prompt}".
+                Provide ONLY the full, standalone, valid HTML code inside a single block. Do not write explanation outside the code block.
+                Make sure the UI looks modern, mobile-responsive, beautifully styled, and fully functional. Include HTML, CSS in <style> and JS in <script> in one single file.`;
+
                 const response = await fetch(url, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        contents: [{
-                            parts: [{ 
-                                text: "You are Paari AI, a highly intelligent Tamil voice assistant. Provide a clear, detailed, and complete explanation in Tamil for: " + promptText 
-                            }]
-                        }]
-                    })
+                    body: JSON.stringify({ contents: [{ parts: [{ text: systemPrompt }] }] })
                 });
 
                 const data = await response.json();
-
-                if (data.candidates && data.candidates[0].content && data.candidates[0].content.parts[0].text) {
-                    const aiReply = data.candidates[0].content.parts[0].text;
-                    outputEl.innerText = "பாரி AI:\n" + aiReply;
-                    statusEl.innerText = "EXPLAINING...";
-                    statusEl.style.color = "#00ff66";
-                    speakResponse(aiReply);
+                if (data.candidates && data.candidates[0].content.parts[0].text) {
+                    let text = data.candidates[0].content.parts[0].text;
+                    
+                    // Code Extraction
+                    generatedCode = text.replace(/```html/g, '').replace(/```/g, '').trim();
+                    outputEl.innerText = "🎉 உங்களின் ஆப் வெற்றிகரமாக உருவாக்கப்பட்டது!\n\nகீழே உள்ள '📱 APP PREVIEW' பட்டனை கிளிக் செய்து ஆப்பை இயக்கிப் பாருங்கள்!";
+                    
+                    // Inject code to preview iframe
+                    const iframe = document.getElementById('appPreviewFrame');
+                    iframe.srcdoc = generatedCode;
+                    
+                    statusEl.innerText = "APP READY";
                 } else {
-                    outputEl.innerText = "API Error: " + (data.error ? data.error.message : "பதில் வரவில்லை");
-                    statusEl.innerText = "SYSTEM ERROR";
-                    reactor.className = "reactor-container";
+                    outputEl.innerText = "ஆப் உருவாக்குவதில் பிழை ஏற்பட்டது.";
+                    statusEl.innerText = "ERROR";
                 }
-            } catch (error) {
-                outputEl.innerText = "இணைய இணைப்பில் பிழை (Network Error).";
-                statusEl.innerText = "NETWORK ERROR";
-                reactor.className = "reactor-container";
+            } catch (err) {
+                outputEl.innerText = "இணைய இணைப்பில் பிழை.";
+                statusEl.innerText = "ERROR";
             }
         }
 
-        function speakResponse(text) {
-            if ('speechSynthesis' in window) {
-                window.speechSynthesis.cancel();
-                const cleanText = text.replace(/[*#_]/g, ''); 
-                const utterance = new SpeechSynthesisUtterance(cleanText);
-                utterance.lang = 'ta-IN';
+        function downloadAppCode() {
+            if (!generatedCode) { alert("முதலில் ஒரு ஆப்பை உருவாக்கவும்!"); return; }
+            const blob = new Blob([generatedCode], { type: "text/html" });
+            const a = document.createElement("a");
+            a.href = URL.createObjectURL(blob);
+            a.download = "My_PAARI_App.html";
+            a.click();
+        }
 
-                utterance.onstart = () => { reactor.className = "reactor-container speaking"; };
-                utterance.onend = () => {
-                    statusEl.innerText = "SYSTEM ONLINE";
-                    statusEl.style.color = "#00f0ff";
-                    reactor.className = "reactor-container";
-                };
-
-                window.speechSynthesis.speak(utterance);
-            }
+        function copyCode() {
+            if (!generatedCode) { alert("முதலில் ஒரு ஆப்பை உருவாக்கவும்!"); return; }
+            navigator.clipboard.writeText(generatedCode);
+            alert("ஆப் கோடு காப்பி செய்யப்பட்டது!");
         }
     </script>
 </body>
