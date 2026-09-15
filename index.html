@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>PAARI AI - Quantum J.A.R.V.I.S System</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800;900&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+    <title>PAARI AI - Quantum Intelligence</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800;900&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
     <style>
         * {
             box-sizing: border-box;
@@ -23,48 +23,44 @@
             flex-direction: column;
             justify-content: space-between;
             align-items: center;
-            overflow: hidden;
-            padding: 20px 15px;
+            padding: 15px;
             background-image: 
-                radial-gradient(circle at 50% 30%, rgba(0, 240, 255, 0.08) 0%, transparent 70%),
+                radial-gradient(circle at 50% 30%, rgba(0, 240, 255, 0.1) 0%, transparent 70%),
                 linear-gradient(rgba(0, 240, 255, 0.03) 1px, transparent 1px),
                 linear-gradient(90deg, rgba(0, 240, 255, 0.03) 1px, transparent 1px);
-            background-size: 100% 100%, 30px 30px, 30px 30px;
+            background-size: 100% 100%, 25px 25px, 25px 25px;
+            overflow: hidden;
         }
 
-        /* Top Header */
         .header {
-            width: 100%;
             text-align: center;
-            margin-top: 10px;
+            margin-top: 5px;
         }
 
         .title {
             font-family: 'Orbitron', sans-serif;
             font-size: 26px;
             font-weight: 900;
-            letter-spacing: 4px;
+            letter-spacing: 3px;
             color: #ffffff;
             text-shadow: 0 0 10px #00f0ff, 0 0 20px #00f0ff;
         }
 
         .subtitle {
-            font-size: 11px;
-            letter-spacing: 3px;
-            color: rgba(0, 240, 255, 0.6);
+            font-size: 10px;
+            letter-spacing: 2px;
+            color: rgba(0, 240, 255, 0.7);
             margin-top: 2px;
-            text-transform: uppercase;
         }
 
-        /* Arc Reactor Visualizer */
         .reactor-container {
             position: relative;
-            width: 220px;
-            height: 220px;
+            width: 160px;
+            height: 160px;
             display: flex;
             justify-content: center;
             align-items: center;
-            margin: auto 0;
+            margin: 10px 0;
         }
 
         .ring-outer {
@@ -72,112 +68,89 @@
             width: 100%;
             height: 100%;
             border-radius: 50%;
-            border: 2px dashed rgba(0, 240, 255, 0.4);
-            animation: rotateClockwise 20s linear infinite;
-        }
-
-        .ring-middle {
-            position: absolute;
-            width: 78%;
-            height: 78%;
-            border-radius: 50%;
-            border: 3px solid transparent;
-            border-top-color: #00f0ff;
-            border-bottom-color: #00f0ff;
-            animation: rotateCounter 8s ease-in-out infinite;
-            filter: drop-shadow(0 0 8px #00f0ff);
+            border: 2px dashed rgba(0, 240, 255, 0.5);
+            animation: spinClockwise 15s linear infinite;
         }
 
         .ring-inner {
             position: absolute;
-            width: 55%;
-            height: 55%;
+            width: 75%;
+            height: 75%;
             border-radius: 50%;
-            border: 2px solid rgba(0, 240, 255, 0.6);
-            border-left-color: transparent;
-            animation: rotateClockwise 4s linear infinite;
+            border: 2px solid transparent;
+            border-top-color: #00f0ff;
+            border-bottom-color: #00f0ff;
+            animation: spinCounter 6s ease-in-out infinite;
         }
 
         .core {
-            width: 38%;
-            height: 38%;
-            background: radial-gradient(circle, #ffffff 10%, #00f0ff 60%, rgba(0, 240, 255, 0.2) 100%);
+            width: 45%;
+            height: 45%;
+            background: radial-gradient(circle, #ffffff 10%, #00f0ff 70%, rgba(0, 240, 255, 0.3) 100%);
             border-radius: 50%;
-            box-shadow: 0 0 25px #00f0ff, 0 0 50px #00f0ff, inset 0 0 15px #ffffff;
-            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 0 20px #00f0ff, 0 0 40px #00f0ff;
+            transition: all 0.3s ease;
         }
 
-        /* Speaking/Listening Animations */
         .reactor-container.listening .core {
-            animation: pulseListening 1s ease-in-out infinite alternate;
-            background: radial-gradient(circle, #ffffff 10%, #ff0055 60%, rgba(255, 0, 85, 0.2) 100%);
-            box-shadow: 0 0 35px #ff0055, 0 0 70px #ff0055;
+            background: radial-gradient(circle, #ffffff 10%, #ff0055 70%, rgba(255, 0, 85, 0.3) 100%);
+            box-shadow: 0 0 30px #ff0055, 0 0 60px #ff0055;
+            animation: pulse 1s infinite alternate;
+        }
+
+        .reactor-container.thinking .core {
+            background: radial-gradient(circle, #ffffff 10%, #ffaa00 70%, rgba(255, 170, 0, 0.3) 100%);
+            box-shadow: 0 0 30px #ffaa00, 0 0 60px #ffaa00;
         }
 
         .reactor-container.speaking .core {
-            animation: pulseSpeaking 0.5s ease-in-out infinite alternate;
+            animation: pulse 0.5s infinite alternate;
         }
 
-        @keyframes rotateClockwise {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
+        @keyframes spinClockwise { 100% { transform: rotate(360deg); } }
+        @keyframes spinCounter { 100% { transform: rotate(-360deg); } }
+        @keyframes pulse { 0% { transform: scale(0.95); } 100% { transform: scale(1.15); } }
 
-        @keyframes rotateCounter {
-            from { transform: rotate(360deg); }
-            to { transform: rotate(0deg); }
-        }
-
-        @keyframes pulseListening {
-            0% { transform: scale(0.9); }
-            100% { transform: scale(1.15); }
-        }
-
-        @keyframes pulseSpeaking {
-            0% { transform: scale(1); }
-            100% { transform: scale(1.25); }
-        }
-
-        /* Status & Output Panel */
         .display-panel {
             width: 100%;
-            background: rgba(4, 20, 40, 0.75);
-            border: 1px solid rgba(0, 240, 255, 0.25);
+            flex: 1;
+            max-height: 50vh;
+            background: rgba(4, 20, 40, 0.85);
+            border: 1px solid rgba(0, 240, 255, 0.4);
             border-radius: 15px;
             padding: 15px;
             backdrop-filter: blur(10px);
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5), inset 0 0 15px rgba(0, 240, 255, 0.05);
-            margin-bottom: 15px;
-            min-height: 110px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
             display: flex;
             flex-direction: column;
-            justify-content: center;
+            justify-content: flex-start;
+            margin-bottom: 10px;
         }
 
         .status-tag {
             font-family: 'Orbitron', sans-serif;
-            font-size: 10px;
+            font-size: 11px;
             letter-spacing: 2px;
-            color: #ff0055;
-            margin-bottom: 6px;
+            color: #00f0ff;
+            margin-bottom: 8px;
             text-transform: uppercase;
         }
 
         .response-text {
             font-size: 16px;
-            line-height: 1.4;
-            color: #e0f7fc;
-            font-weight: 600;
-            max-height: 120px;
+            line-height: 1.5;
+            color: #ffffff;
+            font-weight: 500;
             overflow-y: auto;
+            white-space: pre-wrap;
+            user-select: text;
         }
 
-        /* Controls Section */
         .controls {
             width: 100%;
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 8px;
             align-items: center;
         }
 
@@ -188,13 +161,16 @@
             background: radial-gradient(circle, #00f0ff 0%, #005580 100%);
             border: none;
             outline: none;
-            color: #020813;
             display: flex;
             justify-content: center;
             align-items: center;
             cursor: pointer;
-            box-shadow: 0 0 20px rgba(0, 240, 255, 0.5);
-            transition: all 0.3s ease;
+            box-shadow: 0 0 25px rgba(0, 240, 255, 0.6);
+            transition: transform 0.2s;
+        }
+
+        .mic-btn:active {
+            transform: scale(0.9);
         }
 
         .mic-btn svg {
@@ -203,41 +179,31 @@
             fill: #020813;
         }
 
-        .mic-btn:active {
-            transform: scale(0.92);
-            box-shadow: 0 0 30px #00f0ff;
-        }
-
         .footer-note {
             font-size: 10px;
             letter-spacing: 1.5px;
-            color: rgba(0, 240, 255, 0.4);
+            color: rgba(0, 240, 255, 0.5);
         }
     </style>
 </head>
 <body>
 
-    <!-- Header -->
     <div class="header">
         <div class="title">PAARI AI</div>
-        <div class="subtitle">QUANTUM J.A.R.V.I.S SYSTEM</div>
+        <div class="subtitle">QUANTUM INTELLIGENCE SYSTEM</div>
     </div>
 
-    <!-- Arc Reactor Visualization -->
     <div class="reactor-container" id="reactor">
         <div class="ring-outer"></div>
-        <div class="ring-middle"></div>
         <div class="ring-inner"></div>
         <div class="core"></div>
     </div>
 
-    <!-- AI Output Box -->
     <div class="display-panel">
         <div class="status-tag" id="status">SYSTEM ONLINE</div>
-        <div class="response-text" id="output">வணக்கம் நண்பா! நான் பாரி AI. உங்களுக்கு என்ன உதவி வேண்டும்?</div>
+        <div class="response-text" id="output">வணக்கம் நண்பா! நான் பாரி AI. உங்கள் எந்தக் கேள்வியாக இருந்தாலும் மைக்கைத் தொட்டுக் கேட்கலாம்...</div>
     </div>
 
-    <!-- Voice Control Button -->
     <div class="controls">
         <button class="mic-btn" onclick="startVoice()">
             <svg viewBox="0 0 24 24">
@@ -245,68 +211,118 @@
                 <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
             </svg>
         </button>
-        <div class="footer-note">TAP MIC TO COMMAND</div>
+        <div class="footer-note">TAP MIC TO SPEAK</div>
     </div>
 
     <script>
+        const API_KEY = "AQ.Ab8RN6JI2iYlLOxk620o18gnA1kvqxJNjVnS14PsGJOiyAc13A";
+
         const statusEl = document.getElementById('status');
         const outputEl = document.getElementById('output');
         const reactor = document.getElementById('reactor');
 
-        // Simple Voice Recognition Setup
         const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 
         function startVoice() {
             if (!SpeechRecognition) {
-                alert("உங்கள் பிரவுசரில் Voice Input சப்போர்ட் இல்லை.");
+                alert("உங்கள் பிரவுசரில் Voice Speech ஆதரிக்கப்படவில்லை.");
                 return;
             }
 
-            const recognition = new SpeechRecognition();
-            recognition.lang = 'ta-IN'; // Tamil Speech Input
+            const rec = new SpeechRecognition();
+            rec.lang = 'ta-IN';
 
-            recognition.onstart = () => {
+            rec.onstart = () => {
                 statusEl.innerText = "LISTENING...";
                 statusEl.style.color = "#ff0055";
                 reactor.className = "reactor-container listening";
             };
 
-            recognition.onresult = (event) => {
-                const text = event.results[0][0].transcript;
-                outputEl.innerText = "நீங்கள் கூறியது: " + text;
-                speakResponse("வணக்கம், நீங்கள் கூறியதை கேட்டுக்கொண்டேன். " + text);
+            rec.onresult = async (e) => {
+                const userQuery = e.results[0][0].transcript;
+                outputEl.innerText = "நீங்கள்: " + userQuery + "\n\nபாரி AI யோசிக்கிறது...";
+                await askGeminiPro(userQuery);
             };
 
-            recognition.onerror = () => {
-                statusEl.innerText = "ERROR IN VOICE";
+            rec.onerror = () => {
+                statusEl.innerText = "ERROR LISTENING";
+                statusEl.style.color = "#ff0055";
                 reactor.className = "reactor-container";
             };
 
-            recognition.onend = () => {
-                statusEl.innerText = "SYSTEM ONLINE";
-                statusEl.style.color = "#00f0ff";
-                reactor.className = "reactor-container";
+            rec.onend = () => {
+                if (statusEl.innerText === "LISTENING...") {
+                    statusEl.innerText = "SYSTEM ONLINE";
+                    statusEl.style.color = "#00f0ff";
+                    reactor.className = "reactor-container";
+                }
             };
 
-            recognition.start();
+            rec.start();
         }
 
-        // Voice Speech Output
-        function speakResponse(text) {
-            const utterance = new SpeechSynthesisUtterance(text);
-            utterance.lang = 'ta-IN';
+        async function askGeminiPro(promptText) {
+            statusEl.innerText = "THINKING & PROCESSING...";
+            statusEl.style.color = "#ffaa00";
+            reactor.className = "reactor-container thinking";
 
-            utterance.onstart = () => {
-                statusEl.innerText = "SPEAKING...";
-                reactor.className = "reactor-container speaking";
-            };
+            try {
+                const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`;
+                
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        contents: [{
+                            parts: [{ 
+                                text: "You are Paari AI, an advanced, highly intelligent Tamil AI assistant like J.A.R.V.I.S. Provide a very clear, detailed, and helpful explanation in Tamil for the user's question. Question: " + promptText 
+                            }]
+                        }]
+                    })
+                });
 
-            utterance.onend = () => {
-                statusEl.innerText = "SYSTEM ONLINE";
+                const data = await response.json();
+
+                if (data.candidates && data.candidates[0].content.parts[0].text) {
+                    const aiReply = data.candidates[0].content.parts[0].text;
+                    outputEl.innerText = "பாரி AI:\n" + aiReply;
+                    statusEl.innerText = "EXPLAINING...";
+                    statusEl.style.color = "#00ff66";
+                    speakResponse(aiReply);
+                } else {
+                    outputEl.innerText = "பதில் பெற முடியவில்லை நண்பா. மீண்டும் ஒருமுறை கேட்கவும்.";
+                    statusEl.innerText = "SYSTEM ERROR";
+                    reactor.className = "reactor-container";
+                }
+            } catch (error) {
+                outputEl.innerText = "இணைய இணைப்பில் பிழை ஏற்பட்டது. தயவுசெய்து உங்கள் Internet-ஐ சரிபார்க்கவும்.";
+                statusEl.innerText = "NETWORK ERROR";
                 reactor.className = "reactor-container";
-            };
+            }
+        }
 
-            window.speechSynthesis.speak(utterance);
+        function speakResponse(text) {
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+                
+                // குறுகிய வாக்கியங்களாகப் பிரித்து குரலில் பேச வைத்தல்
+                const cleanText = text.replace(/[*#_]/g, ''); 
+                const utterance = new SpeechSynthesisUtterance(cleanText);
+                utterance.lang = 'ta-IN';
+                utterance.rate = 1.0;
+
+                utterance.onstart = () => {
+                    reactor.className = "reactor-container speaking";
+                };
+
+                utterance.onend = () => {
+                    statusEl.innerText = "SYSTEM ONLINE";
+                    statusEl.style.color = "#00f0ff";
+                    reactor.className = "reactor-container";
+                };
+
+                window.speechSynthesis.speak(utterance);
+            }
         }
     </script>
 </body>
