@@ -32,10 +32,7 @@
             overflow: hidden;
         }
 
-        .header {
-            text-align: center;
-            margin-top: 5px;
-        }
+        .header { text-align: center; margin-top: 5px; }
 
         .title {
             font-family: 'Orbitron', sans-serif;
@@ -189,7 +186,7 @@
 
     <div class="display-panel">
         <div class="status-tag" id="status">SYSTEM ONLINE</div>
-        <div class="response-text" id="output">வணக்கம் நண்பா! நான் பாரி AI. உங்கள் புதிய API Key போட்ட பிறகு மைக்கைத் தொட்டுக் கேட்கவும்...</div>
+        <div class="response-text" id="output">வணக்கம் நண்பா! நான் பாரி AI. மைக்கைத் தொட்டு உங்கள் கேள்வியைக் கேட்கவும்...</div>
     </div>
 
     <div class="controls">
@@ -203,8 +200,8 @@
     </div>
 
     <script>
-        // 👇 இந்த இடத்தில் உங்கள் AIzaSy... எனத் தொடங்கும் API Key-ஐப் போடவும்!
-        const API_KEY = "AQ.Ab8RN6JI2iYlLOxk620o18gnA1kvqxJNjVnS14PsGJOiyAc13A";
+        // 👇 இந்த இரட்டை மேற்கோள்களுக்குள் உங்கள் Gemini API Key-ஐப் போடவும்
+        const API_KEY = "AQ.Ab8RN6JI2iYlLOxk620o18gnA1kvqxJNjVnS14PsGJOiyAc13A"; 
 
         const statusEl = document.getElementById('status');
         const outputEl = document.getElementById('output');
@@ -214,7 +211,7 @@
 
         function startVoice() {
             if (!SpeechRecognition) {
-                alert("உங்கள் பிரவுசரில் Voice Input சப்போர்ட் இல்லை.");
+                alert("உங்கள் பிரவுசரில் Voice Speech ஆதரிக்கப்படவில்லை.");
                 return;
             }
 
@@ -230,7 +227,7 @@
             rec.onresult = async (e) => {
                 const userQuery = e.results[0][0].transcript;
                 outputEl.innerText = "நீங்கள்: " + userQuery + "\n\nபாரி AI யோசிக்கிறது...";
-                await askGeminiPro(userQuery);
+                await askGemini(userQuery);
             };
 
             rec.onerror = () => {
@@ -239,31 +236,24 @@
                 reactor.className = "reactor-container";
             };
 
-            rec.onend = () => {
-                if (statusEl.innerText === "LISTENING...") {
-                    statusEl.innerText = "SYSTEM ONLINE";
-                    statusEl.style.color = "#00f0ff";
-                    reactor.className = "reactor-container";
-                }
-            };
-
             rec.start();
         }
 
-        async function askGeminiPro(promptText) {
+        async function askGemini(promptText) {
             statusEl.innerText = "THINKING & PROCESSING...";
             statusEl.style.color = "#ffaa00";
             reactor.className = "reactor-container thinking";
 
-            if (!API_KEY || API_KEY.includes("YOUR_NEW_API_KEY_HERE") || API_KEY.startsWith("AQ.")) {
-                outputEl.innerText = "பிழை: தயவுசெய்து AIzaSy... என்று தொடங்கும் சரியான Gemini API Key-ஐக் கோடில் குறிப்பிடவும்.";
-                statusEl.innerText = "KEY INVALID";
+            if (!API_KEY) {
+                outputEl.innerText = "பிழை: API Key சேர்க்கப்படவில்லை. தயவுசெய்து கோடில் API Key-ஐச் சேர்க்கவும்.";
+                statusEl.innerText = "KEY MISSING";
                 reactor.className = "reactor-container";
                 return;
             }
 
             try {
-                const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${API_KEY}`;
+                // Multi-model support fallback to avoid errors
+                const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`;
                 
                 const response = await fetch(url, {
                     method: 'POST',
@@ -271,7 +261,7 @@
                     body: JSON.stringify({
                         contents: [{
                             parts: [{ 
-                                text: "You are Paari AI, an advanced, highly intelligent Tamil AI assistant. Provide a very clear and helpful explanation in Tamil for the user's question: " + promptText 
+                                text: "You are Paari AI, a smart Tamil voice assistant. Give a detailed and clear explanation in Tamil for: " + promptText 
                             }]
                         }]
                     })
@@ -285,17 +275,13 @@
                     statusEl.innerText = "EXPLAINING...";
                     statusEl.style.color = "#00ff66";
                     speakResponse(aiReply);
-                } else if (data.error) {
-                    outputEl.innerText = "API பிழை: " + data.error.message;
-                    statusEl.innerText = "API ERROR";
-                    reactor.className = "reactor-container";
                 } else {
-                    outputEl.innerText = "பதில் பெற முடியவில்லை நண்பா. மீண்டும் ஒருமுறை கேட்கவும்.";
+                    outputEl.innerText = "API பிழை: " + (data.error ? data.error.message : "பதில் வரவில்லை");
                     statusEl.innerText = "SYSTEM ERROR";
                     reactor.className = "reactor-container";
                 }
             } catch (error) {
-                outputEl.innerText = "இணைய இணைப்பில் பிழை ஏற்பட்டது. Internet-ஐ சரிபார்க்கவும்.";
+                outputEl.innerText = "இணைய இணைப்பில் பிழை (Network Error).";
                 statusEl.innerText = "NETWORK ERROR";
                 reactor.className = "reactor-container";
             }
@@ -308,10 +294,7 @@
                 const utterance = new SpeechSynthesisUtterance(cleanText);
                 utterance.lang = 'ta-IN';
 
-                utterance.onstart = () => {
-                    reactor.className = "reactor-container speaking";
-                };
-
+                utterance.onstart = () => { reactor.className = "reactor-container speaking"; };
                 utterance.onend = () => {
                     statusEl.innerText = "SYSTEM ONLINE";
                     statusEl.style.color = "#00f0ff";
