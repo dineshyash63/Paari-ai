@@ -1,0 +1,299 @@
+09.15 10:13 PM
+index .html
+<!DOCTYPE html>
+<html lang="ta">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Paari AI - Quantum Intelligence</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #050b14;
+            --card-bg: rgba(13, 25, 48, 0.7);
+            --primary-cyan: #00f3ff;
+            --secondary-blue: #0066ff;
+            --text-color: #e0f7fc;
+            --glow-shadow: 0 0 15px rgba(0, 243, 255, 0.4);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Rajdhani', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            background-image: 
+                radial-gradient(circle at 50% 10%, rgba(0, 243, 255, 0.15) 0%, transparent 60%),
+                radial-gradient(circle at 80% 80%, rgba(0, 102, 255, 0.1) 0%, transparent 50%);
+            color: var(--text-color);
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        /* Top Header */
+        header {
+            padding: 18px 20px;
+            background: rgba(5, 11, 20, 0.85);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0, 243, 255, 0.2);
+            text-align: center;
+            position: relative;
+            z-index: 10;
+        }
+
+        header h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.6rem;
+            letter-spacing: 3px;
+            color: #fff;
+            text-shadow: 0 0 10px var(--primary-cyan), 0 0 20px var(--primary-cyan);
+            text-transform: uppercase;
+        }
+
+        header p {
+            font-size: 0.75rem;
+            color: var(--primary-cyan);
+            letter-spacing: 2px;
+            margin-top: 3px;
+            opacity: 0.8;
+        }
+
+        /* Quantum Orb Animation Area */
+        .orb-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 15px 0 5px 0;
+        }
+
+        .quantum-orb {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: radial-gradient(circle, #fff 0%, var(--primary-cyan) 40%, var(--secondary-blue) 80%);
+            box-shadow: 0 0 25px var(--primary-cyan), inset 0 0 15px #fff;
+            animation: pulse 2.5s infinite ease-in-out;
+            position: relative;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(0.92); box-shadow: 0 0 15px var(--primary-cyan); }
+            50% { transform: scale(1.05); box-shadow: 0 0 35px var(--primary-cyan), 0 0 50px var(--secondary-blue); }
+            100% { transform: scale(0.92); box-shadow: 0 0 15px var(--primary-cyan); }
+        }
+
+        /* Chat Container */
+        #chat-container {
+            flex: 1;
+            padding: 15px 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            scroll-behavior: smooth;
+        }
+
+        .message {
+            max-width: 85%;
+            padding: 14px 18px;
+            border-radius: 16px;
+            font-size: 1.05rem;
+            line-height: 1.5;
+            letter-spacing: 0.5px;
+            position: relative;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .user-msg {
+            align-self: flex-end;
+            background: linear-gradient(135deg, #0051ff, #002288);
+            color: #ffffff;
+            border-bottom-right-radius: 2px;
+            box-shadow: 0 4px 12px rgba(0, 81, 255, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .ai-msg {
+            align-self: flex-start;
+            background: var(--card-bg);
+            backdrop-filter: blur(8px);
+            color: var(--text-color);
+            border-bottom-left-radius: 2px;
+            border: 1px solid rgba(0, 243, 255, 0.25);
+            box-shadow: var(--glow-shadow);
+        }
+
+        /* Input Controls Bar */
+        #input-bar {
+            padding: 12px 15px;
+            background: rgba(5, 11, 20, 0.95);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(0, 243, 255, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        #user-input {
+            flex: 1;
+            padding: 14px 18px;
+            background: rgba(13, 25, 48, 0.9);
+            border: 1px solid rgba(0, 243, 255, 0.3);
+            border-radius: 25px;
+            color: #fff;
+            font-size: 1rem;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        #user-input:focus {
+            border-color: var(--primary-cyan);
+            box-shadow: 0 0 12px rgba(0, 243, 255, 0.4);
+        }
+
+        .action-btn {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            border: none;
+            background: linear-gradient(135deg, var(--primary-cyan), var(--secondary-blue));
+            color: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            box-shadow: 0 0 12px rgba(0, 243, 255, 0.4);
+            transition: transform 0.2s ease;
+        }
+
+        .action-btn:active {
+            transform: scale(0.9);
+        }
+
+        .action-btn svg {
+            width: 22px;
+            height: 22px;
+            fill: #050b14;
+        }
+
+        /* Custom Scrollbar */
+        #chat-container::-webkit-scrollbar {
+            width: 4px;
+        }
+        #chat-container::-webkit-scrollbar-thumb {
+            background: rgba(0, 243, 255, 0.3);
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>PAARI AI</h1>
+        <p>QUANTUM INTELLIGENCE SYSTEM</p>
+    </header>
+
+    <div class="orb-wrapper">
+        <div class="quantum-orb"></div>
+    </div>
+
+    <div id="chat-container">
+        <div class="message ai-msg">
+            வணக்கம் நண்பா! நான் உங்களின் Paari AI (J.A.R.V.I.S Mode). உங்களுக்கு என்ன உதவி வேண்டும்?
+        </div>
+    </div>
+
+    <div id="input-bar">
+        <input type="text" id="user-input" placeholder="கேள்வி கேளுங்கள்..." onkeypress="handleKey(event)">
+        
+        <button class="action-btn" id="mic-btn" onclick="startVoice()">
+            <svg viewBox="0 0 24 24"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg>
+        </button>
+
+        <button class="action-btn" onclick="sendMsg()">
+            <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+        </button>
+    </div>
+
+    <script>
+        const API_KEY = "YOUR_GEMINI_API_KEY"; // உங்கள் Gemini API Key-ஐ இங்கே போடவும்
+
+        async function sendMsg() {
+            const input = document.getElementById("user-input");
+            const text = input.value.trim();
+            if (!text) return;
+
+            addMsg(text, "user-msg");
+            input.value = "";
+
+            const loading = addMsg("சிந்திக்கிறது...", "ai-msg");
+
+            try {
+                const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${API_KEY}`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        contents: [{ parts: [{ text: text }] }]
+                    })
+                });
+
+                const data = await res.json();
+                const reply = data.candidates?.[0]?.content?.parts?.[0]?.text || "மன்னிக்கவும், பதில் பெற முடியவில்லை.";
+                loading.innerText = reply;
+            } catch (err) {
+                loading.innerText = "பிழை ஏற்பட்டது. இணையத்தை சரிபார்க்கவும்.";
+            }
+        }
+
+        function addMsg(text, cls) {
+            const container = document.getElementById("chat-container");
+            const div = document.createElement("div");
+            div.className = `message ${cls}`;
+            div.innerText = text;
+            container.appendChild(div);
+            container.scrollTop = container.scrollHeight;
+            return div;
+        }
+
+        function handleKey(e) {
+            if (e.key === "Enter") sendMsg();
+        }
+
+        function startVoice() {
+            if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+                alert("Voice feature supports only in updated Android Chrome WebView.");
+                return;
+            }
+            const Speech = window.SpeechRecognition || window.webkitSpeechRecognition;
+            const rec = new Speech();
+            rec.lang = 'ta-IN';
+            rec.start();
+
+            document.getElementById("mic-btn").style.boxShadow = "0 0 25px #00f3ff";
+
+            rec.onresult = (e) => {
+                document.getElementById("user-input").value = e.results[0][0].transcript;
+                document.getElementById("mic-btn").style.boxShadow = "0 0 12px rgba(0, 243, 255, 0.4)";
+                sendMsg();
+            };
+
+            rec.onerror = () => {
+                document.getElementById("mic-btn").style.boxShadow = "0 0 12px rgba(0, 243, 255, 0.4)";
+            };
+        }
+    </script>
+</body>
+</html>
+
