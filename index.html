@@ -55,8 +55,8 @@
 
         .reactor-container {
             position: relative;
-            width: 160px;
-            height: 160px;
+            width: 150px;
+            height: 150px;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -114,7 +114,7 @@
         .display-panel {
             width: 100%;
             flex: 1;
-            max-height: 50vh;
+            max-height: 45vh;
             background: rgba(4, 20, 40, 0.85);
             border: 1px solid rgba(0, 240, 255, 0.4);
             border-radius: 15px;
@@ -137,7 +137,7 @@
         }
 
         .response-text {
-            font-size: 16px;
+            font-size: 15px;
             line-height: 1.5;
             color: #ffffff;
             font-weight: 500;
@@ -169,21 +169,9 @@
             transition: transform 0.2s;
         }
 
-        .mic-btn:active {
-            transform: scale(0.9);
-        }
-
-        .mic-btn svg {
-            width: 32px;
-            height: 32px;
-            fill: #020813;
-        }
-
-        .footer-note {
-            font-size: 10px;
-            letter-spacing: 1.5px;
-            color: rgba(0, 240, 255, 0.5);
-        }
+        .mic-btn:active { transform: scale(0.9); }
+        .mic-btn svg { width: 32px; height: 32px; fill: #020813; }
+        .footer-note { font-size: 10px; letter-spacing: 1.5px; color: rgba(0, 240, 255, 0.5); }
     </style>
 </head>
 <body>
@@ -201,7 +189,7 @@
 
     <div class="display-panel">
         <div class="status-tag" id="status">SYSTEM ONLINE</div>
-        <div class="response-text" id="output">வணக்கம் நண்பா! நான் பாரி AI. உங்கள் எந்தக் கேள்வியாக இருந்தாலும் மைக்கைத் தொட்டுக் கேட்கலாம்...</div>
+        <div class="response-text" id="output">வணக்கம் நண்பா! நான் பாரி AI. உங்கள் புதிய API Key போட்ட பிறகு மைக்கைத் தொட்டுக் கேட்கவும்...</div>
     </div>
 
     <div class="controls">
@@ -215,6 +203,7 @@
     </div>
 
     <script>
+        // 👇 இந்த இடத்தில் உங்கள் AIzaSy... எனத் தொடங்கும் API Key-ஐப் போடவும்!
         const API_KEY = "AQ.Ab8RN6JI2iYlLOxk620o18gnA1kvqxJNjVnS14PsGJOiyAc13A";
 
         const statusEl = document.getElementById('status');
@@ -225,7 +214,7 @@
 
         function startVoice() {
             if (!SpeechRecognition) {
-                alert("உங்கள் பிரவுசரில் Voice Speech ஆதரிக்கப்படவில்லை.");
+                alert("உங்கள் பிரவுசரில் Voice Input சப்போர்ட் இல்லை.");
                 return;
             }
 
@@ -266,8 +255,15 @@
             statusEl.style.color = "#ffaa00";
             reactor.className = "reactor-container thinking";
 
+            if (!API_KEY || API_KEY.includes("YOUR_NEW_API_KEY_HERE") || API_KEY.startsWith("AQ.")) {
+                outputEl.innerText = "பிழை: தயவுசெய்து AIzaSy... என்று தொடங்கும் சரியான Gemini API Key-ஐக் கோடில் குறிப்பிடவும்.";
+                statusEl.innerText = "KEY INVALID";
+                reactor.className = "reactor-container";
+                return;
+            }
+
             try {
-                const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`;
+                const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${API_KEY}`;
                 
                 const response = await fetch(url, {
                     method: 'POST',
@@ -275,7 +271,7 @@
                     body: JSON.stringify({
                         contents: [{
                             parts: [{ 
-                                text: "You are Paari AI, an advanced, highly intelligent Tamil AI assistant like J.A.R.V.I.S. Provide a very clear, detailed, and helpful explanation in Tamil for the user's question. Question: " + promptText 
+                                text: "You are Paari AI, an advanced, highly intelligent Tamil AI assistant. Provide a very clear and helpful explanation in Tamil for the user's question: " + promptText 
                             }]
                         }]
                     })
@@ -283,19 +279,23 @@
 
                 const data = await response.json();
 
-                if (data.candidates && data.candidates[0].content.parts[0].text) {
+                if (data.candidates && data.candidates[0].content && data.candidates[0].content.parts[0].text) {
                     const aiReply = data.candidates[0].content.parts[0].text;
                     outputEl.innerText = "பாரி AI:\n" + aiReply;
                     statusEl.innerText = "EXPLAINING...";
                     statusEl.style.color = "#00ff66";
                     speakResponse(aiReply);
+                } else if (data.error) {
+                    outputEl.innerText = "API பிழை: " + data.error.message;
+                    statusEl.innerText = "API ERROR";
+                    reactor.className = "reactor-container";
                 } else {
                     outputEl.innerText = "பதில் பெற முடியவில்லை நண்பா. மீண்டும் ஒருமுறை கேட்கவும்.";
                     statusEl.innerText = "SYSTEM ERROR";
                     reactor.className = "reactor-container";
                 }
             } catch (error) {
-                outputEl.innerText = "இணைய இணைப்பில் பிழை ஏற்பட்டது. தயவுசெய்து உங்கள் Internet-ஐ சரிபார்க்கவும்.";
+                outputEl.innerText = "இணைய இணைப்பில் பிழை ஏற்பட்டது. Internet-ஐ சரிபார்க்கவும்.";
                 statusEl.innerText = "NETWORK ERROR";
                 reactor.className = "reactor-container";
             }
@@ -304,12 +304,9 @@
         function speakResponse(text) {
             if ('speechSynthesis' in window) {
                 window.speechSynthesis.cancel();
-                
-                // குறுகிய வாக்கியங்களாகப் பிரித்து குரலில் பேச வைத்தல்
                 const cleanText = text.replace(/[*#_]/g, ''); 
                 const utterance = new SpeechSynthesisUtterance(cleanText);
                 utterance.lang = 'ta-IN';
-                utterance.rate = 1.0;
 
                 utterance.onstart = () => {
                     reactor.className = "reactor-container speaking";
